@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="students.xsl"?>
+
+<studentDataBase>
+    <student Name="Рублёв" Faculty="Cybernetics" Department="CS" Course="1" Mark="4">
+    </student>
+
+    <student Name="Аникушин" Faculty="Mechmat" Department="KM" Course="4" Mark="3">
+    </student>
+
+    <student Name="Иванов" Faculty="Mechmat" Department="Maths" Course="2" Mark="4">
+    </student>
+
+    <student Name="Аджубей" Faculty="Cybentetics" Department="PI" Course="2" Mark="5">
+    </student>
+
+    <student Name="Харченко" Faculty="Cybernetics" Department="SA" Course="3" Mark="1">
+    </student>
+    <student Name="Иванчук" Faculty="CCS" Department="TTP" Course="Magistr" Mark="100">
+    </student>
+</studentDataBase>
