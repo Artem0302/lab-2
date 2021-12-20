@@ -8,14 +8,14 @@ app.use(cors());
 const parser = new xml2js.Parser();
 
 let obj = {};
-obj.studentDataBase = {};
-obj.studentDataBase.student = {};
+obj.scienceDataBase = {};
+obj.scienceDataBase.draft = {};
 fs.readFile("../science.xml", (err, data) => {
   if (data) {
     parser.parseString(data, (err, result) => {
       if (result) {
         obj = result;
-        console.log(obj.studentDataBase.student[0]);
+        console.log(obj.scienceDataBase.draft[0]);
       } else {
         console.log(err);
       }
@@ -30,7 +30,7 @@ const getFile = (filename) => {
 };
 const displayResult = () => {
   const xml = getFile("../science.xml");
-  const xsl = getFile("../students.xsl");
+  const xsl = getFile("../projects.xsl");
   const data = xsltProcess(xmlParse(xml), xmlParse(xsl));
   fs.open("output-dom.html", "w+", (err) => {
     if (err) throw err;
@@ -46,118 +46,114 @@ const filterData = (filter, value = null) => {
     case "name":
       if (value) {
         let i = [];
-        obj.studentDataBase.student.forEach((el, j) => {
+        obj.scienceDataBase.draft.forEach((el, j) => {
           if (el.$.Name === value) {
             i.push(j);
           }
         });
         for (let j = 0; j < i.length; j++) {
-          data.push(obj.studentDataBase.student[i[j]].$);
+          data.push(obj.scienceDataBase.draft[i[j]].$);
         }
       } else {
-        data = obj.studentDataBase.student.map((el, i) => el.$.Name);
+        data = obj.scienceDataBase.draft.map((el, i) => el.$.Name);
       }
       break;
     case "faculty":
       if (value) {
         let i = [];
-        obj.studentDataBase.student.forEach((el, j) => {
+        obj.scienceDataBase.draft.forEach((el, j) => {
           if (el.$.Faculty === value) {
             i.push(j);
           }
         });
         for (let j = 0; j < i.length; j++) {
-          data.push(obj.studentDataBase.student[i[j]].$);
+          data.push(obj.scienceDataBase.draft[i[j]].$);
         }
       } else {
-        data = obj.studentDataBase.student.map((el, i) => el.$.Faculty);
+        data = obj.scienceDataBase.draft.map((el, i) => el.$.Faculty);
       }
       break;
     case "department":
       if (value) {
         let i = [];
-        obj.studentDataBase.student.forEach((el, j) => {
+        obj.scienceDataBase.draft.forEach((el, j) => {
           if (el.$.Department === value) {
             i.push(j);
           }
         });
         for (let j = 0; j < i.length; j++) {
-          data.push(obj.studentDataBase.student[i[j]].$);
+          data.push(obj.scienceDataBase.draft[i[j]].$);
         }
       } else {
-        data = obj.studentDataBase.student.map((el, i) => el.$.Department);
+        data = obj.scienceDataBase.draft.map((el, i) => el.$.Department);
       }
       break;
-    case "course":
+    case "laboratory":
       if (value) {
         let i = [];
-        obj.studentDataBase.student.forEach((el, j) => {
-          if (el.$.Course === value) {
+        obj.scienceDataBase.draft.forEach((el, j) => {
+          if (el.$.laboratory === value) {
             i.push(j);
           }
         });
         for (let j = 0; j < i.length; j++) {
-          data.push(obj.studentDataBase.student[i[j]].$);
+          data.push(obj.scienceDataBase.draft[i[j]].$);
         }
       } else {
-        data = obj.studentDataBase.student.map((el, i) => el.$.Course);
+        data = obj.scienceDataBase.draft.map((el, i) => el.$.laboratory);
       }
       break;
-    case "mark":
+    case "project":
       if (value) {
         let i = [];
-        obj.studentDataBase.student.forEach((el, j) => {
-          if (el.$.Mark === value) {
+        obj.scienceDataBase.draft.forEach((el, j) => {
+          if (el.$.project === value) {
             i.push(j);
           }
         });
         for (let j = 0; j < i.length; j++) {
-          data.push(obj.studentDataBase.student[i[j]].$);
+          data.push(obj.scienceDataBase.draft[i[j]].$);
         }
       } else {
-        data = obj.studentDataBase.student.map((el, i) => el.$.Mark);
+        data = obj.scienceDataBase.draft.map((el, i) => el.$.project);
       }
       break;
     case "Dom":
       displayResult();
       break;
+    default:
+      data = obj.scienceDataBase.draft.map((el, i) => el.$);
   }
   return data;
 };
 
-app.get("/:filter", (req, res) => {
-  const filter = req.params.filter;
+app.get("/all", (req, res) => {
+  const filter = '';
   const data = filterData(filter);
   res.json({ type: "text", data });
 });
 
-app.get("/name/:name", (req, res) => {
-  const name = req.params.name;
-  const data = filterData("name", name);
-  res.json({ type: "text", data });
-});
+app.get("/:name/:faculty/:department/:laboratory/:project", (req, res) => {
+  const project = req.params.project;
+  let data = [];
+  for (let key in req.params){
+    if (req.params[key] !== '№' && data.length === 0){
+      data = filterData(key,req.params[key]);
+    }
+    if(req.params[key] !== '№' && data.length !== 0){
+      let i = [];
+      data.forEach((el, j) => {
+        if (el[key] === req.params[key]) {
+          i.push(j);
+        }
+      });
+      for (let j = 0; j < i.length; j++) {
+        i[j] = data[i[j]];
+      }
+      data = i;
+    }
+  }
 
-app.get("/faculty/:faculty", (req, res) => {
-  const faculty = req.params.faculty;
-  const data = filterData("faculty", faculty);
-  res.json({ type: "text", data });
-});
-
-app.get("/department/:department", (req, res) => {
-  const department = req.params.department;
-  const data = filterData("department", department);
-  res.json({ type: "text", data });
-});
-
-app.get("/course/:course", (req, res) => {
-  const course = req.params.course;
-  const data = filterData("course", course);
-  res.json({ type: "text", data });
-});
-
-app.get("/mark/:mark", (req, res) => {
-  const mark = req.params.mark;
-  const data = filterData("mark", mark);
   res.json({ type: "text", data });
 });
 

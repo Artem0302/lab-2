@@ -1,21 +1,21 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="students.xsl"?>
+<?xml-stylesheet type="text/xsl" href="projects.xsl"?>
 
-<studentDataBase>
-    <student Name="Рублёв" Faculty="Cybernetics" Department="CS" Course="1" Mark="4">
-    </student>
+<scienceDataBase>
+    <draft Name="Вася" Faculty="Cybernetics" Department="CS" laboratory="1" project="Interesting">
+    </draft>
 
-    <student Name="Аникушин" Faculty="Mechmat" Department="KM" Course="4" Mark="3">
-    </student>
+    <draft Name="Петя" Faculty="Mechmat" Department="KM" laboratory="4" project="Hello">
+    </draft>
 
-    <student Name="Иванов" Faculty="Mechmat" Department="Maths" Course="2" Mark="4">
-    </student>
+    <draft Name="Ваня" Faculty="Mechmat" Department="Maths" laboratory="2" project="Computer">
+    </draft>
 
-    <student Name="Аджубей" Faculty="Cybentetics" Department="PI" Course="2" Mark="5">
-    </student>
+    <draft Name="Курлык" Faculty="Cybentetics" Department="PI" laboratory="2" project="Internet">
+    </draft>
 
-    <student Name="Харченко" Faculty="Cybernetics" Department="SA" Course="3" Mark="1">
-    </student>
-    <student Name="Иванчук" Faculty="CCS" Department="TTP" Course="Magistr" Mark="100">
-    </student>
-</studentDataBase>
+    <draft Name="Крутой" Faculty="Cybernetics" Department="SA" laboratory="3" project="Js">
+    </draft>
+    <draft Name="Захар" Faculty="CCS" Department="TTP" laboratory="2" project="React">
+    </draft>
+</scienceDataBase>
